@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projets — Myriam Portfolio</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root { --nav-height: 64px; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; background: #050510; color: #f8f8ff; overflow-x: hidden; }
+
+    /* NAVBAR */
+    #main-nav {
+      position: fixed; top: 0; left: 0; right: 0; height: var(--nav-height);
+      z-index: 9999; backdrop-filter: blur(16px);
+      background: rgba(5,5,16,0.8); border-bottom: 1px solid rgba(192,132,252,0.15);
+    }
+    .nav-inner { max-width: 1280px; margin: 0 auto; height: 100%; padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo { font-family: 'Cinzel Decorative', serif; font-size: 1.05rem; background: linear-gradient(90deg, #f9a96e, #f472b6, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-decoration: none; }
+    .nav-links { display: flex; align-items: center; gap: 0.15rem; list-style: none; }
+    .nav-links a { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(248,248,255,0.5); text-decoration: none; padding: 0.3rem 0.65rem; border-radius: 999px; transition: color 0.2s, background 0.2s; }
+    .nav-links a:hover, .nav-links a.active { color: #c084fc; background: rgba(192,132,252,0.12); }
+    #nav-toggle { display: none; }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
+    .hamburger span { display: block; width: 22px; height: 2px; background: rgba(248,248,255,0.7); border-radius: 2px; transition: transform 0.3s, opacity 0.3s; }
+    #mobile-menu { display: none; position: fixed; top: var(--nav-height); left: 0; right: 0; background: rgba(5,5,16,0.97); border-bottom: 1px solid rgba(192,132,252,0.15); padding: 1rem 2rem 1.5rem; z-index: 9998; flex-direction: column; gap: 0.2rem; }
+    #mobile-menu a { font-size: 0.9rem; color: rgba(248,248,255,0.7); text-decoration: none; padding: 0.55rem 0.75rem; border-radius: 8px; transition: background 0.2s; }
+    #mobile-menu a:hover { background: rgba(192,132,252,0.1); color: #c084fc; }
+    @media (max-width: 768px) {
+      .nav-links { display: none; } .hamburger { display: flex; }
+      #nav-toggle:checked ~ #mobile-menu { display: flex; }
+      #nav-toggle:checked ~ .hamburger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+      #nav-toggle:checked ~ .hamburger span:nth-child(2) { opacity: 0; }
+      #nav-toggle:checked ~ .hamburger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    }
+
+    /* ── HERO ── */
+    .page-hero {
+      padding-top: var(--nav-height);
+      background: radial-gradient(ellipse 80% 60% at 50% -10%, rgba(192,132,252,0.2) 0%, transparent 65%);
+      padding-bottom: 4rem; text-align: center;
+    }
+    .hero-inner { max-width: 900px; margin: 0 auto; padding: 4rem 2rem 0; }
+    .eyebrow { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: #c084fc; margin-bottom: 1rem; }
+    .page-title {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: clamp(2rem, 6vw, 4rem); line-height: 1.1;
+      background: linear-gradient(135deg, #e879f9, #c084fc, #22d3ee);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      margin-bottom: 1rem;
+      filter: drop-shadow(0 4px 20px rgba(192,132,252,0.35));
+    }
+    .page-sub { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.1rem; color: rgba(248,248,255,0.5); letter-spacing: 0.06em; margin-bottom: 2.5rem; }
+
+    /* Filtres */
+    .filters {
+      display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .filter-btn {
+      font-size: 0.75rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 0.45rem 1.25rem; border-radius: 999px; cursor: pointer; border: none;
+      background: rgba(255,255,255,0.05); color: rgba(248,248,255,0.5);
+      border: 1px solid rgba(255,255,255,0.08);
+      transition: all 0.2s;
+    }
+    .filter-btn:hover { background: rgba(255,255,255,0.08); color: rgba(248,248,255,0.85); }
+    .filter-btn.active-all { background: rgba(192,132,252,0.15); color: #c084fc; border-color: rgba(192,132,252,0.4); box-shadow: 0 0 12px rgba(192,132,252,0.2); }
+    .filter-btn.active-pro { background: rgba(192,132,252,0.15); color: #c084fc; border-color: rgba(192,132,252,0.4); box-shadow: 0 0 12px rgba(192,132,252,0.2); }
+    .filter-btn.active-ecole { background: rgba(34,211,238,0.12); color: #22d3ee; border-color: rgba(34,211,238,0.4); box-shadow: 0 0 12px rgba(34,211,238,0.2); }
+    .filter-btn.active-perso { background: rgba(244,114,182,0.12); color: #f472b6; border-color: rgba(244,114,182,0.4); box-shadow: 0 0 12px rgba(244,114,182,0.2); }
+
+    /* ── GRILLE PROJETS ── */
+    .projects-section { padding: 3rem 2rem 6rem; max-width: 1200px; margin: 0 auto; }
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.25rem;
+    }
+
+    /* Carte projet */
+    .proj-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 20px; overflow: hidden;
+      transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+      cursor: pointer; position: relative;
+    }
+    .proj-card:hover {
+      transform: translateY(-6px);
+      border-color: var(--neon, rgba(192,132,252,0.5));
+      box-shadow: 0 0 30px var(--neon-glow, rgba(192,132,252,0.12));
+    }
+
+    /* Bande couleur en haut */
+    .proj-band {
+      height: 3px;
+      background: linear-gradient(90deg, var(--neon, #c084fc), var(--neon2, #22d3ee));
+      box-shadow: 0 0 12px var(--neon, #c084fc);
+    }
+
+    /* Badge catégorie */
+    .proj-cat {
+      position: absolute; top: 1rem; right: 1rem;
+      font-size: 0.65rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 0.25rem 0.65rem; border-radius: 999px;
+      background: rgba(0,0,0,0.4); backdrop-filter: blur(8px);
+      color: var(--neon, #c084fc);
+      border: 1px solid var(--neon, rgba(192,132,252,0.4));
+    }
+
+    .proj-body { padding: 1.5rem; }
+    .proj-icon { font-size: 2.2rem; margin-bottom: 0.75rem; }
+    .proj-title { font-family: 'Cinzel Decorative', serif; font-size: 0.85rem; color: var(--neon, #c084fc); letter-spacing: 0.04em; margin-bottom: 0.5rem; }
+    .proj-desc { font-size: 0.82rem; color: rgba(248,248,255,0.5); line-height: 1.65; margin-bottom: 1rem; }
+    .proj-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1rem; }
+    .p-tag { font-size: 0.68rem; padding: 0.22rem 0.6rem; border-radius: 999px; background: rgba(255,255,255,0.05); color: rgba(248,248,255,0.45); border: 1px solid rgba(255,255,255,0.07); }
+    .proj-link {
+      font-size: 0.72rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--neon, #c084fc); text-decoration: none;
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      opacity: 0; transform: translateX(-6px);
+      transition: opacity 0.25s, transform 0.25s;
+    }
+    .proj-card:hover .proj-link { opacity: 1; transform: none; }
+
+    /* Hidden pour le filtre */
+    .proj-card.hidden { display: none; }
+
+    /* FOOTER */
+    footer { background: #030308; border-top: 1px solid rgba(192,132,252,0.1); padding: 2.5rem 2rem; text-align: center; }
+    .footer-logo { font-family: 'Cinzel Decorative', serif; font-size: 1rem; background: linear-gradient(90deg, #f9a96e, #f472b6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 0.75rem; }
+    .footer-links { display: flex; justify-content: center; gap: 1.5rem; list-style: none; margin: 0.75rem 0; }
+    .footer-links a { font-size: 0.72rem; color: rgba(255,255,255,0.25); text-decoration: none; letter-spacing: 0.05em; text-transform: uppercase; transition: color 0.2s; }
+    .footer-links a:hover { color: #c084fc; }
+    footer p { font-size: 0.72rem; color: rgba(255,255,255,0.2); }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav id="main-nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">Myriam.dev</a>
+      <ul class="nav-links">
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="presentation.html">Présentation</a></li>
+        <li><a href="entreprise.html">Entreprise</a></li>
+        <li><a href="projets.html" class="active">Projets</a></li>
+        <li><a href="veille.html">Veille</a></li>
+        <li><a href="competences.html">Compétences</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="documents.html">Documents</a></li>
+      </ul>
+      <input type="checkbox" id="nav-toggle" style="display:none" />
+      <label for="nav-toggle" class="hamburger"><span></span><span></span><span></span></label>
+    </div>
+    <div id="mobile-menu">
+      <a href="index.html">Accueil</a><a href="presentation.html">Présentation</a>
+      <a href="entreprise.html">Entreprise</a><a href="projets.html">Projets</a>
+      <a href="veille.html">Veille techno</a><a href="competences.html">Compétences</a>
+      <a href="contact.html">Contact</a>
+      <a href="documents.html">Documents</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <div class="page-hero">
+    <div class="hero-inner">
+      <div class="eyebrow">Portfolio</div>
+      <h1 class="page-title">Mes Projets</h1>
+      <p class="page-sub">Pro · École · Perso — du code avec âme</p>
+      <div class="filters">
+        <button class="filter-btn active-all" data-cat="all">✦ Tous</button>
+        <button class="filter-btn" data-cat="pro">💼 Professionnel</button>
+        <button class="filter-btn" data-cat="ecole">🎓 École</button>
+        <button class="filter-btn" data-cat="perso">✨ Personnel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- GRILLE -->
+  <div class="projects-section">
+    <div class="projects-grid" id="projectsGrid">
+
+      <!-- PRO 1 -->
+      <div class="proj-card" data-cat="pro" style="--neon:#c084fc; --neon2:#e879f9; --neon-glow:rgba(192,132,252,0.12);">
+        <div class="proj-band"></div>
+        <div class="proj-cat">Pro</div>
+        <div class="proj-body">
+          <div class="proj-icon">📊</div>
+          <div class="proj-title">Voiture Balai Logistique</div>
+          <div class="proj-desc">Dashboard Power BI de réconciliation des données de réception logistique entre Cognos et Power BI. Mesures DAX, Power Query M et validation des écarts.</div>
+          <div class="proj-tags">
+            <span class="p-tag">Power BI</span><span class="p-tag">DAX</span><span class="p-tag">Power Query M</span><span class="p-tag">Cognos</span>
+          </div>
+          <a href="entreprise.html" class="proj-link">Voir la mission →</a>
+        </div>
+      </div>
+
+      <!-- PRO 2 -->
+      <div class="proj-card" data-cat="pro" style="--neon:#c084fc; --neon2:#818cf8; --neon-glow:rgba(192,132,252,0.12);">
+        <div class="proj-band"></div>
+        <div class="proj-cat">Pro</div>
+        <div class="proj-body">
+          <div class="proj-icon">👥</div>
+          <div class="proj-title">Voiture Balai RH — WD Acciline</div>
+          <div class="proj-desc">Outil de comparaison des données RH entre Workday et Acciline pour l'équipe SST. Pages Établissements, Centres et Collaborateurs, avec enrichissement géographique.</div>
+          <div class="proj-tags">
+            <span class="p-tag">Power BI</span><span class="p-tag">Workday</span><span class="p-tag">Acciline</span><span class="p-tag">SharePoint</span>
+          </div>
+          <a href="entreprise.html" class="proj-link">Voir la mission →</a>
+        </div>
+      </div>
+
+      <!-- PRO 3 -->
+      <div class="proj-card" data-cat="pro" style="--neon:#22d3ee; --neon2:#60a5fa; --neon-glow:rgba(34,211,238,0.1);">
+        <div class="proj-band"></div>
+        <div class="proj-cat">Pro</div>
+        <div class="proj-body">
+          <div class="proj-icon">🔄</div>
+          <div class="proj-title">Cahier de recette — Migration EXP RECEP</div>
+          <div class="proj-desc">Rédaction et mise en forme du cahier de recette pour la migration du module réception de Cognos vers Power BI. Validation des données et analyse des anomalies de température.</div>
+          <div class="proj-tags">
+            <span class="p-tag">Recette</span><span class="p-tag">Word DOCX</span><span class="p-tag">Validation</span><span class="p-tag">Anomalies</span>
+          </div>
+          <a href="entreprise.html" class="proj-link">Voir la mission →</a>
+        </div>
+      </div>
+
+      <!-- ÉCOLE 1 -->
+      <div class="proj-card" data-cat="ecole" style="--neon:#22d3ee; --neon2:#4ade80; --neon-glow:rgba(34,211,238,0.1);">
+        <div class="proj-band"></div>
+        <div class="proj-cat">École</div>
+        <div class="proj-body">
+          <div class="proj-icon">💊</div>
+          <div class="proj-title">GSB Ordonnance — C# WinForms</div>
+          <div class="proj-desc">Application de gestion d'ordonnances en C# WinForms avec architecture MVC. 5 formulaires (patients, ordonnances, médecins), migration SQLite → MySQL sur Docker. Documentation complète sur Notion.</div>
+          <div class="proj-tags">
+            <span class="p-tag">C#</span><span class="p-tag">WinForms</span><span class="p-tag">MySQL</span><span class="p-tag">Docker</span><span class="p-tag">MVC</span>
+          </div>
+          <a href="https://github.com/mimi-dr" target="_blank" class="proj-link">GitHub →</a>
+        </div>
+      </div>
+
+      <!-- ÉCOLE 2 -->
+      <div class="proj-card" data-cat="ecole" style="--neon:#f472b6; --neon2:#c084fc; --neon-glow:rgba(244,114,182,0.1);">
+        <div class="proj-band"></div>
+        <div class="proj-cat">École</div>
+        <div class="proj-body">
+          <div class="proj-icon">🔐</div>
+          <div class="proj-title">Audit Cybersécurité — Collège Saint-Exupéry</div>
+          <div class="proj-desc">Projet d'équipe (Myriam, Yann, Xavier) : rapport d'audit de sécurité pour un collège fictif, présentation HTML interactive futuriste, script batch de sauvegarde Windows et supports de sensibilisation.</div>
+          <div class="proj-tags">
+            <span class="p-tag">Cybersécurité</span><span class="p-tag">HTML</span><span class="p-tag">Batch</span><span class="p-tag">Audit</span>
+          </div>
+          <a href="https://github.com/mimi-dr" target="_blank" class="proj-link">GitHub →</a>
+        </div>
+      </div>
+
+      <!-- ÉCOLE 3 -->
+      <div class="proj-card" data-cat="ecole" style="--neon:#fbbf24; --neon2:#f9a96e; --neon-glow:rgba(251,191,36,0.1);">
+        <div class="proj-band"></div>
+        <div class="proj-cat">École</div>
+        <div class="proj-body">
+          <div class="proj-icon">🦀</div>
+          <div class="proj-title">Ver réseau Rust — TP Josselyn</div>
+          <div class="proj-desc">Développement d'un ver réseau en Rust dans un environnement Docker pour le cours de Josselyn. Rapport Word et déploiement de projets web sur GitHub Pages.</div>
+          <div class="proj-tags">
+            <span class="p-tag">Rust</span><span class="p-tag">Docker</span><span class="p-tag">Réseau</span><span class="p-tag">GitHub Pages</span>
+          </div>
+          <a href="https://mimi-dr.github.io" target="_blank" class="proj-link">GitHub Pages →</a>
+        </div>
+      </div>
+
+      <!-- PERSO 1 -->
+      <div class="proj-card" data-cat="perso" style="--neon:#f472b6; --neon2:#fbbf24; --neon-glow:rgba(244,114,182,0.1);">
+        <div class="proj-band"></div>
+        <div class="proj-cat">Perso</div>
+        <div class="proj-body">
+          <div class="proj-icon">🌐</div>
+          <div class="proj-title">Portfolio BTS SIO — Portfoliov2</div>
+          <div class="proj-desc">Ce portfolio ! Développé en HTML + Tailwind CSS, multi-pages avec 7 thèmes distincts. Animations CSS, parallax, effets néon et composants interactifs.</div>
+          <div class="proj-tags">
+            <span class="p-tag">HTML</span><span class="p-tag">Tailwind CSS</span><span class="p-tag">JavaScript</span><span class="p-tag">CSS Animations</span>
+          </div>
+          <a href="index.html" class="proj-link">Tu y es déjà →</a>
+        </div>
+      </div>
+
+      <!-- PERSO 2 -->
+      <div class="proj-card" data-cat="perso" style="--neon:#4ade80; --neon2:#22d3ee; --neon-glow:rgba(74,222,128,0.1);">
+        <div class="proj-band"></div>
+        <div class="proj-cat">Perso</div>
+        <div class="proj-body">
+          <div class="proj-icon">🎮</div>
+          <div class="proj-title">Tier List Generator</div>
+          <div class="proj-desc">Générateur de tier lists interactif déployé sur GitHub Pages. Interface drag-and-drop, catégories personnalisables et export visuel.</div>
+          <div class="proj-tags">
+            <span class="p-tag">HTML</span><span class="p-tag">JavaScript</span><span class="p-tag">CSS</span><span class="p-tag">GitHub Pages</span>
+          </div>
+          <a href="https://mimi-dr.github.io" target="_blank" class="proj-link">Voir le projet →</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">Myriam.dev</div>
+    <ul class="footer-links">
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="presentation.html">Présentation</a></li>
+      <li><a href="projets.html">Projets</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <p>© 2025 Myriam — BTS SIO SLAM · Portfolio HTML + Tailwind CSS</p>
+  </footer>
+
+  <script>
+    // Filtres
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const cards = document.querySelectorAll('.proj-card');
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.className = 'filter-btn');
+        const cat = btn.dataset.cat;
+        if (cat === 'all') btn.classList.add('active-all');
+        else if (cat === 'pro') btn.classList.add('active-pro');
+        else if (cat === 'ecole') btn.classList.add('active-ecole');
+        else if (cat === 'perso') btn.classList.add('active-perso');
+
+        cards.forEach(card => {
+          if (cat === 'all' || card.dataset.cat === cat) {
+            card.classList.remove('hidden');
+          } else {
+            card.classList.add('hidden');
+          }
+        });
+      });
+    });
+
+    // Lien actif
+    const cur = window.location.pathname.split('/').pop() || 'index.html';
+    document.querySelectorAll('.nav-links a, #mobile-menu a').forEach(l => {
+      if (l.getAttribute('href') === cur) l.classList.add('active');
+    });
+  </script>
+</body>
+</html>

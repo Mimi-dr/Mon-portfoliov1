@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Veille Techno — Myriam Portfolio</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root { --nav-height: 64px; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; background: #f5f0e8; color: #1c1410; overflow-x: hidden; }
+
+    /* NAVBAR */
+    #main-nav { position: fixed; top: 0; left: 0; right: 0; height: var(--nav-height); z-index: 9999; backdrop-filter: blur(16px); background: rgba(245,240,232,0.9); border-bottom: 1px solid rgba(28,20,16,0.12); }
+    .nav-inner { max-width: 1280px; margin: 0 auto; height: 100%; padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo { font-family: 'Cinzel Decorative', serif; font-size: 1.05rem; background: linear-gradient(90deg, #f9a96e, #f472b6, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-decoration: none; }
+    .nav-links { display: flex; align-items: center; gap: 0.15rem; list-style: none; }
+    .nav-links a { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(28,20,16,0.45); text-decoration: none; padding: 0.3rem 0.65rem; border-radius: 999px; transition: all 0.2s; }
+    .nav-links a:hover, .nav-links a.active { color: #92400e; background: rgba(251,191,36,0.15); }
+    #nav-toggle { display: none; }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
+    .hamburger span { display: block; width: 22px; height: 2px; background: rgba(28,20,16,0.6); border-radius: 2px; transition: transform 0.3s, opacity 0.3s; }
+    #mobile-menu { display: none; position: fixed; top: var(--nav-height); left: 0; right: 0; background: rgba(245,240,232,0.97); border-bottom: 1px solid rgba(28,20,16,0.1); padding: 1rem 2rem 1.5rem; z-index: 9998; flex-direction: column; gap: 0.2rem; }
+    #mobile-menu a { font-size: 0.9rem; color: rgba(28,20,16,0.7); text-decoration: none; padding: 0.55rem 0.75rem; border-radius: 8px; transition: background 0.2s; }
+    #mobile-menu a:hover { background: rgba(251,191,36,0.12); color: #92400e; }
+    @media (max-width: 768px) {
+      .nav-links { display: none; } .hamburger { display: flex; }
+      #nav-toggle:checked ~ #mobile-menu { display: flex; }
+      #nav-toggle:checked ~ .hamburger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+      #nav-toggle:checked ~ .hamburger span:nth-child(2) { opacity: 0; }
+      #nav-toggle:checked ~ .hamburger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    }
+
+    /* ── EN-TÊTE JOURNAL ── */
+    .journal-header {
+      padding-top: var(--nav-height);
+      background: #f5f0e8;
+      border-bottom: 3px solid #1c1410;
+      padding-bottom: 0;
+    }
+    .journal-top {
+      max-width: 1100px; margin: 0 auto; padding: 3rem 2rem 1.5rem;
+      display: flex; flex-direction: column; align-items: center; text-align: center;
+    }
+    .journal-date { font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(28,20,16,0.4); margin-bottom: 0.5rem; }
+    .journal-rule { width: 100%; height: 1px; background: #1c1410; margin: 0.75rem 0; }
+    .journal-title {
+      font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 8vw, 5.5rem);
+      font-weight: 900; letter-spacing: -0.02em; line-height: 1;
+      color: #1c1410; margin: 0.5rem 0;
+    }
+    .journal-sub { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.1rem; color: rgba(28,20,16,0.5); margin-bottom: 0.75rem; }
+    .journal-tagline {
+      font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase;
+      display: flex; align-items: center; gap: 1rem; color: rgba(28,20,16,0.4);
+    }
+    .journal-tagline span { width: 1px; height: 12px; background: rgba(28,20,16,0.25); }
+
+    /* Bannière couleur sous le header */
+    .journal-banner {
+      background: #1c1410; color: #f5f0e8;
+      padding: 0.4rem 2rem; text-align: center;
+      font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
+      display: flex; justify-content: center; align-items: center; gap: 2rem; flex-wrap: wrap;
+    }
+    .banner-tag { padding: 0.15rem 0.75rem; border-radius: 999px; font-size: 0.68rem; font-weight: 500; }
+    .banner-tag.bi { background: #f472b6; color: #fff; }
+    .banner-tag.cyber { background: #22d3ee; color: #1c1410; }
+    .banner-tag.dev { background: #4ade80; color: #1c1410; }
+    .banner-tag.ia { background: #c084fc; color: #fff; }
+
+    /* ── CONTENU ── */
+    .content-wrap { max-width: 1100px; margin: 0 auto; padding: 3rem 2rem 5rem; }
+
+    /* Featured article (gros) */
+    .featured {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+      border: 1px solid rgba(28,20,16,0.15); border-radius: 0; overflow: hidden;
+      margin-bottom: 2rem;
+    }
+    @media (max-width: 768px) { .featured { grid-template-columns: 1fr; } }
+
+    .featured-img {
+      background: linear-gradient(135deg, #1c1410 0%, #3d2b1f 100%);
+      min-height: 280px; display: flex; align-items: center; justify-content: center;
+      font-size: 5rem; position: relative; overflow: hidden;
+    }
+    .featured-img::after {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(circle at 40% 40%, rgba(244,114,182,0.25), transparent 60%);
+    }
+    .featured-body {
+      background: #fff; padding: 2rem;
+      display: flex; flex-direction: column; justify-content: space-between;
+    }
+    .art-cat { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 0.75rem; }
+    .art-title-lg { font-family: 'Playfair Display', serif; font-size: clamp(1.3rem, 3vw, 2rem); font-weight: 700; color: #1c1410; line-height: 1.25; margin-bottom: 0.75rem; }
+    .art-desc { font-size: 0.85rem; color: rgba(28,20,16,0.6); line-height: 1.7; margin-bottom: 1.25rem; }
+    .art-meta { display: flex; align-items: center; gap: 0.75rem; font-size: 0.72rem; color: rgba(28,20,16,0.4); }
+    .art-meta-sep { width: 1px; height: 10px; background: rgba(28,20,16,0.2); }
+    .art-link { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; padding: 0.5rem 1.25rem; border: 1px solid rgba(28,20,16,0.3); color: #1c1410; border-radius: 4px; transition: all 0.2s; display: inline-block; margin-top: 1rem; }
+    .art-link:hover { background: #1c1410; color: #f5f0e8; }
+
+    /* Séparateur journal */
+    .rule-double { border-top: 3px double rgba(28,20,16,0.25); margin: 2rem 0; }
+    .section-head {
+      font-family: 'Playfair Display', serif; font-size: 0.85rem; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase; color: rgba(28,20,16,0.4);
+      text-align: center; margin: 1.5rem 0 1.5rem; position: relative;
+    }
+    .section-head::before, .section-head::after { content: '—'; margin: 0 0.75rem; }
+
+    /* Grille d'articles */
+    .articles-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem;
+    }
+    .art-card {
+      background: #fff; border: 1px solid rgba(28,20,16,0.1);
+      padding: 0; overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .art-card:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(28,20,16,0.1); }
+    .art-card-img { height: 80px; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; }
+    .art-card-body { padding: 1.25rem; border-top: 2px solid var(--accent, #f472b6); }
+    .art-card-cat { font-size: 0.65rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent, #f472b6); margin-bottom: 0.5rem; }
+    .art-card-title { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; color: #1c1410; line-height: 1.3; margin-bottom: 0.5rem; }
+    .art-card-desc { font-size: 0.78rem; color: rgba(28,20,16,0.55); line-height: 1.6; margin-bottom: 0.75rem; }
+    .art-card-meta { font-size: 0.68rem; color: rgba(28,20,16,0.35); letter-spacing: 0.04em; }
+
+    /* FOOTER */
+    footer { background: #1c1410; border-top: 3px solid #1c1410; padding: 2.5rem 2rem; text-align: center; }
+    .footer-logo { font-family: 'Cinzel Decorative', serif; font-size: 1rem; background: linear-gradient(90deg, #f9a96e, #f472b6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 0.75rem; }
+    .footer-links { display: flex; justify-content: center; gap: 1.5rem; list-style: none; margin: 0.75rem 0; }
+    .footer-links a { font-size: 0.72rem; color: rgba(245,240,232,0.3); text-decoration: none; letter-spacing: 0.05em; text-transform: uppercase; transition: color 0.2s; }
+    .footer-links a:hover { color: #fbbf24; }
+    footer p { font-size: 0.72rem; color: rgba(245,240,232,0.2); }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav id="main-nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">Myriam.dev</a>
+      <ul class="nav-links">
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="presentation.html">Présentation</a></li>
+        <li><a href="entreprise.html">Entreprise</a></li>
+        <li><a href="projets.html">Projets</a></li>
+        <li><a href="veille.html" class="active">Veille</a></li>
+        <li><a href="competences.html">Compétences</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="documents.html">Documents</a></li>
+      </ul>
+      <input type="checkbox" id="nav-toggle" style="display:none" />
+      <label for="nav-toggle" class="hamburger"><span></span><span></span><span></span></label>
+    </div>
+    <div id="mobile-menu">
+      <a href="index.html">Accueil</a><a href="presentation.html">Présentation</a>
+      <a href="entreprise.html">Entreprise</a><a href="projets.html">Projets</a>
+      <a href="veille.html">Veille techno</a><a href="competences.html">Compétences</a>
+      <a href="contact.html">Contact</a>
+      <a href="documents.html">Documents</a>
+    </div>
+  </nav>
+
+  <!-- EN-TÊTE JOURNAL -->
+  <header class="journal-header">
+    <div class="journal-top">
+      <div class="journal-date" id="journalDate">— Veille Technologique BTS SIO —</div>
+      <div class="journal-rule"></div>
+      <h1 class="journal-title">La Gazette Tech</h1>
+      <p class="journal-sub">La veille IT de Myriam — BI, Cybersécurité, Développement</p>
+      <div class="journal-rule"></div>
+      <div class="journal-tagline">
+        <span>Business Intelligence</span><span></span>
+        <span>Cybersécurité</span><span></span>
+        <span>Développement</span><span></span>
+        <span>Intelligence Artificielle</span>
+      </div>
+    </div>
+    <div class="journal-banner">
+      <span>Catégories :</span>
+      <span class="banner-tag bi">Business Intelligence</span>
+      <span class="banner-tag cyber">Cybersécurité</span>
+      <span class="banner-tag dev">Développement</span>
+      <span class="banner-tag ia">Intelligence Artificielle</span>
+    </div>
+  </header>
+
+  <!-- CONTENU -->
+  <main class="content-wrap">
+
+    <!-- Article featured -->
+    <div class="featured">
+      <div class="featured-img">📊</div>
+      <div class="featured-body">
+        <div>
+          <div class="art-cat" style="color:#f472b6;">Business Intelligence</div>
+          <h2 class="art-title-lg">Microsoft Fabric : la convergence de Power BI, Azure et Synapse en une seule plateforme</h2>
+          <p class="art-desc">
+            Microsoft Fabric représente une évolution majeure de l'écosystème BI de Microsoft. 
+            En unifiant Power BI, Azure Data Factory, Synapse Analytics et d'autres outils dans une 
+            plateforme unifiée, Fabric simplifie radicalement le pipeline data — de l'ingestion à la visualisation. 
+            Pour les équipes BI, cela signifie moins de silos et une gouvernance centralisée.
+          </p>
+          <div class="art-meta">
+            <span>Microsoft</span><span class="art-meta-sep"></span>
+            <span>2024</span><span class="art-meta-sep"></span>
+            <span>BI &amp; Cloud</span>
+          </div>
+        </div>
+        <a href="https://learn.microsoft.com/fr-fr/fabric/" target="_blank" class="art-link">Lire la source →</a>
+      </div>
+    </div>
+
+    <div class="rule-double"></div>
+    <div class="section-head">Articles récents</div>
+
+    <!-- Grille articles -->
+    <div class="articles-grid">
+
+      <div class="art-card" style="--accent:#22d3ee;">
+        <div class="art-card-img" style="background:linear-gradient(135deg,#0c3040,#164e63);">🛡️</div>
+        <div class="art-card-body">
+          <div class="art-card-cat">Cybersécurité</div>
+          <div class="art-card-title">Zero Trust : le nouveau paradigme de sécurité en entreprise</div>
+          <div class="art-card-desc">L'approche Zero Trust repose sur le principe de ne jamais faire confiance, toujours vérifier. De plus en plus adoptée par les grandes entreprises pour sécuriser les accès distants.</div>
+          <div class="art-card-meta">ANSSI · 2024</div>
+        </div>
+      </div>
+
+      <div class="art-card" style="--accent:#4ade80;">
+        <div class="art-card-img" style="background:linear-gradient(135deg,#052e16,#14532d);">🔧</div>
+        <div class="art-card-body">
+          <div class="art-card-cat">Développement</div>
+          <div class="art-card-title">Docker et la conteneurisation : standard incontournable du dev moderne</div>
+          <div class="art-card-desc">Docker est devenu un outil indispensable pour les développeurs. La conteneurisation garantit la portabilité des applications entre les environnements de développement, test et production.</div>
+          <div class="art-card-meta">Docker Docs · 2024</div>
+        </div>
+      </div>
+
+      <div class="art-card" style="--accent:#c084fc;">
+        <div class="art-card-img" style="background:linear-gradient(135deg,#1e1035,#3b0764);">🤖</div>
+        <div class="art-card-body">
+          <div class="art-card-cat">Intelligence Artificielle</div>
+          <div class="art-card-title">Copilot dans Power BI : génération de rapports par le langage naturel</div>
+          <div class="art-card-desc">Microsoft intègre des fonctionnalités Copilot directement dans Power BI, permettant de créer des visualisations et des mesures DAX en langage naturel, sans coder manuellement.</div>
+          <div class="art-card-meta">Microsoft Blog · 2024</div>
+        </div>
+      </div>
+
+      <div class="art-card" style="--accent:#f9a96e;">
+        <div class="art-card-img" style="background:linear-gradient(135deg,#431407,#7c2d12);">🔑</div>
+        <div class="art-card-body">
+          <div class="art-card-cat">Cybersécurité</div>
+          <div class="art-card-title">RGPD 2024 : les nouvelles sanctions et leur impact sur les DSI</div>
+          <div class="art-card-desc">La CNIL a multiplié les contrôles et sanctions RGPD ces dernières années. Les DSI doivent renforcer leurs pratiques de gestion des données personnelles et leur documentation de conformité.</div>
+          <div class="art-card-meta">CNIL · 2024</div>
+        </div>
+      </div>
+
+      <div class="art-card" style="--accent:#f472b6;">
+        <div class="art-card-img" style="background:linear-gradient(135deg,#3d0a2e,#701a5a);">❄️</div>
+        <div class="art-card-body">
+          <div class="art-card-cat">Business Intelligence</div>
+          <div class="art-card-title">Snowflake : pourquoi les entreprises migrent vers ce data warehouse cloud</div>
+          <div class="art-card-desc">Snowflake s'impose comme la référence des entrepôts de données cloud. Sa séparation du stockage et du calcul, sa scalabilité et ses connecteurs natifs en font un choix privilégié pour les équipes data.</div>
+          <div class="art-card-meta">Snowflake Blog · 2024</div>
+        </div>
+      </div>
+
+      <div class="art-card" style="--accent:#22d3ee;">
+        <div class="art-card-img" style="background:linear-gradient(135deg,#0c2a3d,#0e4063);">🦀</div>
+        <div class="art-card-body">
+          <div class="art-card-cat">Développement</div>
+          <div class="art-card-title">Rust : le langage système qui conquiert les développeurs système</div>
+          <div class="art-card-desc">Rust continue de dominer les sondages de satisfaction des développeurs. Sa gestion mémoire sans garbage collector et ses garanties de sécurité en font un choix solide pour les systèmes critiques.</div>
+          <div class="art-card-meta">Stack Overflow Survey · 2024</div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">Myriam.dev</div>
+    <ul class="footer-links">
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="presentation.html">Présentation</a></li>
+      <li><a href="projets.html">Projets</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <p>© 2025 Myriam — BTS SIO SLAM · Portfolio HTML + Tailwind CSS</p>
+  </footer>
+
+  <script>
+    // Date du jour dans l'en-tête
+    const d = new Date();
+    const opts = { weekday:'long', year:'numeric', month:'long', day:'numeric' };
+    document.getElementById('journalDate').textContent = d.toLocaleDateString('fr-FR', opts);
+
+    // Lien actif
+    const cur = window.location.pathname.split('/').pop() || 'index.html';
+    document.querySelectorAll('.nav-links a, #mobile-menu a').forEach(l => {
+      if (l.getAttribute('href') === cur) l.classList.add('active');
+    });
+  </script>
+</body>
+</html>
